@@ -16,7 +16,13 @@ const MoveList = ({ moves, color, loading, ...props }) => {
             <MoveCardSkeleton key={v} data-testid="move-loading" />
           ))
         : moves.map((m, i) => (
-            <MoveCard key={m.name} idx={i + 1} data={m} color={color} />
+            <MoveCard
+              key={m.name}
+              idx={i + 1}
+              data={m}
+              color={color}
+              m="8px 0 8px 16px"
+            />
           ))}
     </Flexbox>
   );

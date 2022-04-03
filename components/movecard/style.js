@@ -5,15 +5,16 @@ export const CardContainer = styled.div`
   display: flex;
   align-items: center;
   min-width: 142px;
-  overflow: hidden;
   border-radius: 16px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   background-color: #fff;
   padding: 8px 16px;
-  margin-top: 16px;
+  margin: ${({ m }) => m};
 `;
 
 export const CardNumberContainer = styled.div`
+  position: absolute;
+  left: -16px;
   display: flex;
   align-items: center;
   justify-content: center;
