@@ -9,7 +9,7 @@ const PokemonTypeBar = ({ types, loading }) => {
   const theme = useTheme();
 
   return (
-    <Flexbox p="8px 16px" bs="inset 0px -0.5px 0px #d9d9d9">
+    <Flexbox p="8px 16px" bs="inset 0px -1px 0px #d9d9d9">
       {loading
         ? [1, 2].map((v) => (
             <Skeleton
