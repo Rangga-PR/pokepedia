@@ -7,6 +7,7 @@ import { useTheme } from '@emotion/react';
 import PokemonHero from '../../components/pokemonhero';
 import PokemonTypeBar from '../../components/pokemontypebar';
 import MoveList from '../../components/movelist';
+import CatchPokemon from '../../components/catchpokemon';
 
 export default function PokemonDetail({ pokemon }) {
   const theme = useTheme();
@@ -33,6 +34,13 @@ export default function PokemonDetail({ pokemon }) {
           level: m.version_group_details[0].level_learned_at,
           method: m.version_group_details[0].move_learn_method.name,
         }))}
+      />
+      <CatchPokemon
+        pokemon={{
+          id: pokemon?.id,
+          name: pokemon?.name,
+          sprites: pokemon?.sprites?.front_default,
+        }}
       />
     </Layout>
   );
