@@ -5,11 +5,13 @@ import Hero from '../components/hero';
 import Pokemonlist from '../components/pokemonlist';
 import { GET_POKEMONS } from '../queries';
 import client from '../apollo-client';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useContext } from 'react';
 import { useLazyQuery } from '@apollo/client';
+import { GET_MY_POKEMON, myPokemonStore } from '../context/mypokemon';
 
 export default function Home({ pokemons }) {
   const limit = 20;
+  const { state, dispatch } = useContext(myPokemonStore);
   const [pokemonList, setPokemonList] = useState(pokemons?.results || []);
   const [offset, setOffset] = useState(limit);
   const [hasMore, setHasMore] = useState(
@@ -18,6 +20,10 @@ export default function Home({ pokemons }) {
   const [getPokemons, { loading, data }] = useLazyQuery(GET_POKEMONS, {
     variables: { offset, limit },
   });
+
+  useEffect(() => {
+    dispatch({ type: GET_MY_POKEMON });
+  }, [dispatch]);
 
   const handleFetchMore = useCallback(() => {
     hasMore &&
@@ -51,7 +57,7 @@ export default function Home({ pokemons }) {
       </Head>
       <Appbar />
       <Hero />
-      <Pokemonlist data={pokemonList} loading={loading} />
+      <Pokemonlist data={pokemonList} localData={state} loading={loading} />
     </Layout>
   );
 }

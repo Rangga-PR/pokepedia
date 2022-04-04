@@ -4,7 +4,7 @@ import { getLocalItem, setLocalItem } from '../utilities';
 const myPokemonStore = createContext([]);
 const { Provider } = myPokemonStore;
 
-const GET_POKEMON = 'GET_POKEMON';
+const GET_MY_POKEMON = 'GET_MY_POKEMON';
 const ADD_POKEMON = 'ADD_POKEMON';
 const DELETE_POKEMON = 'DELETE_POKEMON';
 
@@ -13,7 +13,7 @@ const MyPokemonProvider = ({ children }) => {
     const { type, payload } = action;
 
     switch (type) {
-      case GET_POKEMON: {
+      case GET_MY_POKEMON: {
         return getLocalItem('mypokemon') || [];
       }
       case ADD_POKEMON: {
@@ -37,7 +37,7 @@ const MyPokemonProvider = ({ children }) => {
 
 export {
   myPokemonStore,
-  GET_POKEMON,
+  GET_MY_POKEMON,
   ADD_POKEMON,
   DELETE_POKEMON,
   MyPokemonProvider,

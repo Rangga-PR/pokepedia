@@ -1,14 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Flexbox from '../common/flexbox';
 import PokemonCard from '../pokemoncard';
 import PokemonCardSkeleton from '../pokemoncard/skeleton';
 import PropTypes from 'prop-types';
 
-const Pokemonlist = ({ data, loading }) => {
+const Pokemonlist = ({ data, localData, loading }) => {
   return (
     <Flexbox dir="column" p="16px">
       {data.map((d) => (
-        <PokemonCard key={d.id} data={d} />
+        <PokemonCard
+          key={d.id}
+          data={d}
+          caught={localData?.filter((l) => d?.id === l?.id)?.length}
+        />
       ))}
 
       {loading &&
@@ -25,6 +29,15 @@ Pokemonlist.propTypes = {
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
       artwork: PropTypes.string.isRequired,
+    })
+  ),
+  localData: PropTypes.arrayOf(
+    PropTypes.shape({
+      catch_id: PropTypes.number.isRequired,
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      nickname: PropTypes.string.isRequired,
+      sprites: PropTypes.string.isRequired,
     })
   ),
   loading: PropTypes.bool,

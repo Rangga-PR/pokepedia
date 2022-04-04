@@ -18,7 +18,7 @@ const PokemonCard = ({ data, caught, ...props }) => {
         <Typo as="h1" m="4px 0">
           {data.name}
         </Typo>
-        {caught && (
+        {caught > 0 && (
           <Flexbox>
             <Img src="/assets/svg/pokeball_icon.svg" w="16px" alt="pokeball" />
             <Typo fw="bold" m="0 4px">
