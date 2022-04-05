@@ -5,7 +5,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-inline: 16px;
+  padding: ${({ p }) => p || '0 16px'};
   width: 100%;
   aspect-ratio: 2 / 1;
   background-color: ${({ bg }) => bg};

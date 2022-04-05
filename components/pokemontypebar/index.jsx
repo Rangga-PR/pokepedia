@@ -23,14 +23,14 @@ const PokemonTypeBar = ({ types, loading, withShare, handleShare }) => {
                 data-testid="type-loading"
               />
             ))
-          : types.map((t) => (
+          : types?.map((t) => (
               <Pill key={t} m="0 8px 0 0" bg={theme.color[t]}>
                 {t}
               </Pill>
             ))}
       </Flexbox>
 
-      {withShare && (
+      {!loading && withShare && (
         <Img
           c="pointer"
           src="/assets/svg/share_black.svg"
@@ -46,7 +46,7 @@ const PokemonTypeBar = ({ types, loading, withShare, handleShare }) => {
 };
 
 PokemonTypeBar.propTypes = {
-  types: PropTypes.arrayOf(PropTypes.string).isRequired,
+  types: PropTypes.arrayOf(PropTypes.string),
   loading: PropTypes.bool,
   handleShare: PropTypes.func,
   withShare: PropTypes.bool,

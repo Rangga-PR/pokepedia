@@ -3,10 +3,10 @@ import { Container } from './style';
 import PropTypes from 'prop-types';
 import Img from '../common/img';
 import Typo from '../common/typo';
-import { useTheme } from '@emotion/react';
+import PokemonHeroSkeleton from './skeleton';
 
-const PokemonHero = ({ img, bg, name, id, ...props }) => {
-  const theme = useTheme();
+const PokemonHero = ({ img, bg, name, id, loading, ...props }) => {
+  if (loading) return <PokemonHeroSkeleton />;
   return (
     <Container bg={bg} {...props}>
       <Typo fs="42px" fw="600" ta={'end'} c="#fff">
@@ -23,8 +23,9 @@ const PokemonHero = ({ img, bg, name, id, ...props }) => {
 PokemonHero.propTypes = {
   img: PropTypes.string,
   bg: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
+  name: PropTypes.string,
+  id: PropTypes.number,
+  loading: PropTypes.bool,
 };
 
 export default PokemonHero;

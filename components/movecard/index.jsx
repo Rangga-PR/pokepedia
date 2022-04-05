@@ -20,7 +20,7 @@ MoveCard.propTypes = {
     name: PropTypes.string.isRequired,
     level: PropTypes.number.isRequired,
     method: PropTypes.string.isRequired,
-  }).isRequired,
+  }),
   color: PropTypes.string,
 };
 

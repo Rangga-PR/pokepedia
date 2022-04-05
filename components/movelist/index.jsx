@@ -13,9 +13,9 @@ const MoveList = ({ moves, color, loading, ...props }) => {
       </Typo>
       {loading
         ? [1, 2, 3].map((v) => (
-            <MoveCardSkeleton key={v} data-testid="move-loading" />
+            <MoveCardSkeleton key={v} data-testid="move-loading" m="16px 0 0" />
           ))
-        : moves.map((m, i) => (
+        : moves?.map((m, i) => (
             <MoveCard
               key={m.name}
               idx={i + 1}
@@ -37,7 +37,7 @@ MoveList.propTypes = {
       level: PropTypes.number.isRequired,
       method: PropTypes.string.isRequired,
     })
-  ).isRequired,
+  ),
 };
 
 export default MoveList;
