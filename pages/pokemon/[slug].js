@@ -15,7 +15,8 @@ export default function PokemonDetail() {
   const { slug } = useRouter().query;
   const theme = useTheme();
   const [supportShareApi, setSupportShareApi] = useState(false);
-  const { data, loading, error } = useQuery(GET_POKEMON, {
+  const { data, loading } = useQuery(GET_POKEMON, {
+    skip: !slug,
     variables: { name: slug },
   });
 
