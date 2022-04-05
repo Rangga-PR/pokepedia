@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Layout from '../../layouts';
 import Appbar from '../../components/appbar';
@@ -11,6 +12,24 @@ import CatchPokemon from '../../components/catchpokemon';
 
 export default function PokemonDetail({ pokemon }) {
   const theme = useTheme();
+  const [supportShareApi, setSupportShareApi] = useState(false);
+
+  useEffect(() => {
+    setSupportShareApi(navigator?.share ? true : false);
+  }, []);
+
+  const handleShare = () => {
+    supportShareApi &&
+      navigator
+        ?.share({
+          title: `Pokepedia || ${pokemon.name}`,
+          text: `Temukan ${pokemon.name} di Pokepedia`,
+          url: window.location.href,
+        })
+        .catch(() => {
+          return;
+        });
+  };
 
   return (
     <Layout>
@@ -26,7 +45,11 @@ export default function PokemonDetail({ pokemon }) {
         bg={theme?.color?.[pokemon?.types?.[0]?.type?.name]}
         img={pokemon?.sprites?.front_default}
       />
-      <PokemonTypeBar types={pokemon?.types?.map((t) => t.type.name)} />
+      <PokemonTypeBar
+        types={pokemon?.types?.map((t) => t.type.name)}
+        handleShare={handleShare}
+        withShare={supportShareApi}
+      />
       <MoveList
         color={theme?.color?.[pokemon?.types?.[0]?.type?.name]}
         moves={pokemon?.moves?.map((m) => ({
