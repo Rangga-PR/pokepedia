@@ -48,7 +48,7 @@ const PokemonTypeBar = ({ types, loading, withShare, handleShare }) => {
 PokemonTypeBar.propTypes = {
   types: PropTypes.arrayOf(PropTypes.string).isRequired,
   loading: PropTypes.bool,
-  handleShare: PropTypes,
+  handleShare: PropTypes.func,
   withShare: PropTypes.bool,
 };
 
