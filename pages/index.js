@@ -41,7 +41,7 @@ export default function Home({ pokemons }) {
     const handleScroll = () => {
       document.documentElement.scrollTop +
         document.documentElement.clientHeight >=
-        document.documentElement.scrollHeight && handleFetchMore();
+        document.documentElement.scrollHeight - 80 && handleFetchMore();
     };
 
     document.addEventListener('scroll', handleScroll);
