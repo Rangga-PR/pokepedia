@@ -3,6 +3,10 @@ import { screen, render, cleanup, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '@emotion/react';
 import { MyPokemonProvider } from '../context/mypokemon';
+import { MockedProvider } from '@apollo/client/testing';
+import { createMockRouter } from '../test-utils';
+import { GET_POKEMON } from '../queries';
+import { RouterContext } from 'next/dist/shared/lib/router-context';
 import theme from '../styles/theme';
 import React from 'react';
 import PokemonPage from '../pages/pokemon/[slug].js';
@@ -18,36 +22,48 @@ const localPokemon = [
   },
 ];
 
-const pokemon = {
-  id: 10,
-  name: 'caterpie',
-  sprites: {
-    front_default:
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png',
-  },
-  moves: [
-    {
-      move: {
-        name: 'tackle',
-      },
-      version_group_details: [
-        {
-          level_learned_at: 1,
-          move_learn_method: {
-            name: 'level-up',
+const mocks = [
+  {
+    request: {
+      query: GET_POKEMON,
+      variables: { name: 'bulbasaur' },
+    },
+    result: {
+      data: {
+        pokemon: {
+          id: 1,
+          name: 'bulbasaur',
+          sprites: {
+            front_default:
+              'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
           },
+          moves: [
+            {
+              move: {
+                name: 'razor-wind',
+              },
+              version_group_details: [
+                {
+                  level_learned_at: 0,
+                  move_learn_method: {
+                    name: 'egg',
+                  },
+                },
+              ],
+            },
+          ],
+          types: [
+            {
+              type: {
+                name: 'grass',
+              },
+            },
+          ],
         },
-      ],
-    },
-  ],
-  types: [
-    {
-      type: {
-        name: 'bug',
       },
     },
-  ],
-};
+  },
+];
 
 beforeAll(() => {
   ReactDOM.createPortal = jest.fn((element) => {
@@ -69,22 +85,40 @@ afterEach(() => {
   cleanup();
 });
 
-describe('test render pokemon data & catch pokemon', () => {
-  test('render pokemon data', () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <MyPokemonProvider>
-          <PokemonPage pokemon={pokemon} />
-        </MyPokemonProvider>
-      </ThemeProvider>
-    );
+jest.mock('next/link', () => {
+  return ({ children }) => {
+    return children;
+  };
+});
 
-    expect(screen.getByText('#10')).toBeInTheDocument;
-    expect(screen.getByText('caterpie')).toBeInTheDocument;
-    expect(screen.getByAltText('caterpie sprite')).toBeInTheDocument;
-    expect(screen.getByText('bug')).toBeInTheDocument;
-    expect(screen.getByText('tackle')).toBeInTheDocument;
-    expect(screen.getByText('level-up')).toBeInTheDocument;
+describe('test render pokemon data & catch pokemon', () => {
+  test('render pokemon data', async () => {
+    const router = createMockRouter({
+      query: { slug: 'bulbasaur' },
+    });
+    render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <RouterContext.Provider value={router}>
+          <ThemeProvider theme={theme}>
+            <MyPokemonProvider>
+              <PokemonPage />
+            </MyPokemonProvider>
+          </ThemeProvider>
+        </RouterContext.Provider>
+      </MockedProvider>
+    );
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('#1')).toBeInTheDocument;
+      expect(screen.getByText('bulbasaur')).toBeInTheDocument;
+      expect(screen.getByAltText('bulbasaur sprite')).toBeInTheDocument;
+      expect(screen.getByText('grass')).toBeInTheDocument;
+      expect(screen.getByText('razor-wind')).toBeInTheDocument;
+      expect(screen.getByText('egg')).toBeInTheDocument;
+    });
   });
 
   test('catch pokemon and failed', async () => {
@@ -93,19 +127,32 @@ describe('test render pokemon data & catch pokemon', () => {
     global.Math = mockMath;
     localStorage.setItem('mypokemon', JSON.stringify(localPokemon));
     const user = userEvent.setup({ delay: null });
+    const router = createMockRouter({
+      query: { slug: 'bulbasaur' },
+    });
 
     render(
-      <ThemeProvider theme={theme}>
-        <MyPokemonProvider>
-          <PokemonPage pokemon={pokemon} />
-        </MyPokemonProvider>
-      </ThemeProvider>
+      <RouterContext.Provider value={router}>
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <ThemeProvider theme={theme}>
+            <MyPokemonProvider>
+              <PokemonPage />
+            </MyPokemonProvider>
+          </ThemeProvider>
+        </MockedProvider>
+      </RouterContext.Provider>
     );
 
-    const catchBtn = screen.getByAltText('catch');
-    expect(catchBtn).toBeInTheDocument;
-    await user.click(catchBtn);
-    expect(screen.getByAltText('pokeball capturing')).toBeInTheDocument;
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    await waitFor(async () => {
+      const catchBtn = screen.getByAltText('catch');
+      expect(catchBtn).toBeInTheDocument;
+      await user.click(catchBtn);
+      expect(screen.getByAltText('pokeball capturing')).toBeInTheDocument;
+    });
     act(() => jest.runAllTimers());
     await waitFor(
       () => expect(screen.getByText('Pokemonnya kabur!')).toBeInTheDocument
@@ -118,19 +165,32 @@ describe('test render pokemon data & catch pokemon', () => {
     global.Math = mockMath;
     localStorage.setItem('mypokemon', JSON.stringify(localPokemon));
     const user = userEvent.setup({ delay: null });
+    const router = createMockRouter({
+      query: { slug: 'bulbasaur' },
+    });
 
     render(
-      <ThemeProvider theme={theme}>
-        <MyPokemonProvider>
-          <PokemonPage pokemon={pokemon} />
-        </MyPokemonProvider>
-      </ThemeProvider>
+      <RouterContext.Provider value={router}>
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <ThemeProvider theme={theme}>
+            <MyPokemonProvider>
+              <PokemonPage />
+            </MyPokemonProvider>
+          </ThemeProvider>
+        </MockedProvider>
+      </RouterContext.Provider>
     );
 
-    const catchBtn = screen.getByAltText('catch');
-    expect(catchBtn).toBeInTheDocument;
-    await user.click(catchBtn);
-    expect(screen.getByAltText('pokeball capturing')).toBeInTheDocument;
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    await waitFor(async () => {
+      const catchBtn = screen.getByAltText('catch');
+      expect(catchBtn).toBeInTheDocument;
+      await user.click(catchBtn);
+      expect(screen.getByAltText('pokeball capturing')).toBeInTheDocument;
+    });
     act(() => jest.runAllTimers());
     await waitFor(() => expect(screen.getByText('Gotcha!!')).toBeInTheDocument);
     await user.click(screen.getByText('Simpan'));

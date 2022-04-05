@@ -1,5 +1,4 @@
 import { screen, render, cleanup } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { createMockRouter } from '../../test-utils';
 import { ThemeProvider } from '@emotion/react';
@@ -32,7 +31,6 @@ test('render back, home and bag button', () => {
 
 test('has anchor tag to my pokemon page', () => {
   const router = createMockRouter({});
-  const user = userEvent.setup();
   render(
     <RouterContext.Provider value={router}>
       <ThemeProvider theme={theme}>
@@ -47,7 +45,6 @@ test('has anchor tag to my pokemon page', () => {
 
 test('has anchor tag to my home page', () => {
   const router = createMockRouter({});
-  const user = userEvent.setup();
   render(
     <RouterContext.Provider value={router}>
       <ThemeProvider theme={theme}>
