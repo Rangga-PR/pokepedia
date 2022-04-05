@@ -16,8 +16,6 @@ export default function PokemonDetail({ pokemon }) {
     <Layout>
       <Head>
         <title>{`Pokepedia || ${pokemon?.name}`}</title>
-        <meta name="description" content="Temukan pokemon favoritmu" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <Appbar bg={theme?.color?.[pokemon?.types?.[0]?.type?.name]} />
       <PokemonHero

@@ -16,8 +16,6 @@ export default function MyPokemon() {
     <Layout>
       <Head>
         <title>{`Pokepedia || Koleksi pokemon`}</title>
-        <meta name="description" content="Temukan pokemon favoritmu" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <Appbar />
       <MyPokemonList data={state} />
