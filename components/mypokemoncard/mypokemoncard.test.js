@@ -21,7 +21,8 @@ test('render pokemon data and release pokemon', async () => {
       <MyPokemonCard data={pokemon} onRelease={handleRelease} />
     </ThemeProvider>
   );
-  expect(screen.findByText('kobis')).toBeInTheDocument;
+  expect(screen.getByText('kobis')).toBeInTheDocument;
+  expect(screen.getByText('(bulbasaur)')).toBeInTheDocument;
   await user.click(screen.queryByRole('button'));
   expect(handleRelease).toHaveBeenCalledTimes(1);
 });

@@ -11,6 +11,7 @@ const MyPokemonCard = ({ data, onRelease }) => {
     <Container>
       <Img src={data?.sprites} />
       <Typo>{data?.nickname}</Typo>
+      <Typo fs="12px" fw="600">{`(${data?.name})`}</Typo>
       <Button m="4px 0 0 0" w="100%" onClick={() => onRelease(data)}>
         Lepas
       </Button>
