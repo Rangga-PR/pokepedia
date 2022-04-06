@@ -193,7 +193,5 @@ describe('test render pokemon data & catch pokemon', () => {
     });
     act(() => jest.runAllTimers());
     await waitFor(() => expect(screen.getByText('Gotcha!!')).toBeInTheDocument);
-    await user.click(screen.getByText('Simpan'));
-    expect(screen.queryByText('Gotcha!!')).toBeNull();
   });
 });

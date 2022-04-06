@@ -6,11 +6,9 @@ import Flexbox from '../common/flexbox';
 import Img from '../common/img';
 
 const Modal = ({ isOpen, setIsOpen, children }) => {
-  if (!isOpen) return null;
-
   return createPortal(
-    <Overlay>
-      <ContentContainer>
+    <Overlay isOpen={isOpen}>
+      <ContentContainer isOpen={isOpen}>
         <Flexbox jc="end" p="8px">
           <Img
             c="pointer"

@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 export const Overlay = styled.div`
+  visibility: ${({ isOpen }) => (isOpen ? 'visible' : 'hidden')};
   position: fixed;
   display: flex;
   align-items: center;
@@ -9,7 +10,7 @@ export const Overlay = styled.div`
   left: 0;
   height: 100%;
   width: 100vw;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.6);
   z-index: 3;
 `;
 
@@ -21,4 +22,7 @@ export const ContentContainer = styled.div`
   max-height: 500px;
   background-color: #fff;
   border-radius: 16px;
+  opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
+  transform: ${({ isOpen }) => (isOpen ? 'scale(1)' : 'scale(0.7)')};
+  transition: 0.1s ease-in-out;
 `;

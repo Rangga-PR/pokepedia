@@ -73,7 +73,7 @@ export default function PokemonDetail() {
         }))}
         loading={loading}
       />
-      {!loading && (
+      {!loading && data && (
         <CatchPokemon
           pokemon={{
             id: data?.pokemon?.id,
