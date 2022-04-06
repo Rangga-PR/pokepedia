@@ -37,6 +37,17 @@ const mocks = [
             front_default:
               'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
           },
+          stats: [
+            {
+              base_stat: 45,
+              effort: 0,
+              stat: {
+                id: null,
+                url: 'https://pokeapi.co/api/v2/stat/1/',
+                name: 'hp',
+              },
+            },
+          ],
           moves: [
             {
               move: {
@@ -118,6 +129,8 @@ describe('test render pokemon data & catch pokemon', () => {
       expect(screen.getByText('grass')).toBeInTheDocument;
       expect(screen.getByText('razor-wind')).toBeInTheDocument;
       expect(screen.getByText('egg')).toBeInTheDocument;
+      expect(screen.getByText('hp')).toBeInTheDocument;
+      expect(screen.getByText('45')).toBeInTheDocument;
     });
   });
 

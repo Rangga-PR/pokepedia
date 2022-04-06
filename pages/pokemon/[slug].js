@@ -10,6 +10,7 @@ import PokemonTypeBar from '../../components/pokemontypebar';
 import MoveList from '../../components/movelist';
 import CatchPokemon from '../../components/catchpokemon';
 import { useQuery } from '@apollo/client';
+import PokemonStat from '../../components/pokemonstat';
 
 export default function PokemonDetail() {
   const { slug } = useRouter().query;
@@ -18,6 +19,7 @@ export default function PokemonDetail() {
   const { data, loading } = useQuery(GET_POKEMON, {
     skip: !slug,
     variables: { name: slug },
+    fetchPolicy: 'no-cache',
   });
 
   useEffect(() => {
@@ -62,6 +64,14 @@ export default function PokemonDetail() {
         types={data?.pokemon?.types?.map((t) => t.type.name)}
         handleShare={handleShare}
         withShare={supportShareApi}
+        loading={loading}
+      />
+      <PokemonStat
+        stat={data?.pokemon?.stats?.map((s) => ({
+          name: s.stat.name,
+          stat: s.base_stat,
+        }))}
+        color={theme?.color?.[data?.pokemon?.types?.[0]?.type?.name]}
         loading={loading}
       />
       <MoveList

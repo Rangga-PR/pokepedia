@@ -21,6 +21,13 @@ export const GET_POKEMON = gql`
       sprites {
         front_default
       }
+      stats {
+        base_stat
+        stat {
+          id
+          name
+        }
+      }
       moves {
         move {
           name
